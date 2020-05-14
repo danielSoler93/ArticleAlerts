@@ -1,11 +1,11 @@
 import alerts.main as cr
+import alerts.yaml_loader as yl
 
-
-ALERTS = ["deep learning drug discovery", "p38 tab1", "ML drug discovery", "gpcr binding assay",
-          "MDM2",]
 
 def main():
-    for alert in ALERTS:
+
+    user_info = yl.YamlLoader("alerts.yaml").load()
+    for alert in user_info["alerts"]:
         alert = cr.AlertManager(alert)
         alert.check()
 
