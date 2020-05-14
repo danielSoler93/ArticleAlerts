@@ -2,15 +2,17 @@ import requests
 from bs4 import BeautifulSoup
 import re
 from . import article as ar
+from . import checker as ck
 
 
-class Scraper:
+class Scraper():
 
     def __init__(self, url):
         self.url = url
 
     def scrape(self):
         html = self.get_html()
+        ck.Checker(html).check()
         articles = self.get_articles(html)
         return articles
 

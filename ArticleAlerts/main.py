@@ -1,11 +1,13 @@
+import os
 import alerts.main as cr
+import alerts.yaml_loader as yl
 
-
-ALERTS = ["deep learning drug discovery", "p38 tab1", "ML drug discovery", "gpcr binding assay",
-          "MDM2",]
+DIR = os.path.dirname(os.path.abspath(__file__))
 
 def main():
-    for alert in ALERTS:
+    yaml_file = os.path.join(DIR, "alerts.yaml")
+    user_info = yl.YamlLoader(yaml_file).load()
+    for alert in user_info["alerts"]:
         alert = cr.AlertManager(alert)
         alert.check()
 

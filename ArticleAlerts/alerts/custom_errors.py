@@ -1,0 +1,5 @@
+
+
+
+class MaxRequests(Exception):
+    pass
