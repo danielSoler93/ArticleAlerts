@@ -14,7 +14,7 @@ class DB():
         old_articles = self.pull_articles_from_db()
         for article in articles:
             if article.title not in old_articles:
-                print(f"New article {article.title} in {short_name_db}")
+                print(f"New article {article.title} in {self.db_name}")
                 self.db = self.push_article_to_db(article)
         self.dump_db()
 
@@ -25,7 +25,7 @@ class DB():
             return []
 
     def push_article_to_db(self, article: ar.Article):
-        self.db.append(article.__dict__, ignore_index=True)
+        return self.db.append(article.__dict__, ignore_index=True)
 
     def dump_db(self,  filename=None, output_folder="."):
         filename = filename if filename else self.db_absolute_path
