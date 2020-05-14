@@ -4,7 +4,7 @@ from . import scrape as sc
 from . import database as db
 
 URL = "https://scholar.google.es/scholar?as_ylo={}&q={}&hl=es&as_sdt=0,5"
-DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 class AlertManager(sc.Scraper, db.DB):
