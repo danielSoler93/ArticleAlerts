@@ -12,6 +12,8 @@ Get the newest articles on your favourite fields daily. Be tuned!
 
 - The information about the latest articles will be in /path/to/ArticleAlerts/dbs/
 
+- When using it again only the papers not in the database will be notified to the user via screen output
+
 
 
 
