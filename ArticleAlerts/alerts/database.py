@@ -1,6 +1,7 @@
 import pandas as pd
 import os
 from . import article as ar
+from . import download as dw
 
 class DB():
 
@@ -16,6 +17,7 @@ class DB():
             if article.title not in old_articles:
                 print(f"New article {article.title} in {self.db_name}")
                 self.db = self.push_article_to_db(article)
+                dw.ArticleDownloader(article.link, self.db_name).download()
         self.dump_db()
 
     def pull_articles_from_db(self):
