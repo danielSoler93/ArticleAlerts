@@ -8,7 +8,7 @@ class ArticleDownloader:
 
     def  __init__(self, article_url, output_folder="."):
         self.article_url = article_url
-        self.output = os.path.join(ARTICLES_FOLDER, output_folder)
+        self.output = os.path.join(ARTICLES_FOLDER, output_folder.rsplit(".")[0])
 
     def download(self):
         if not os.path.exists(self.output):
