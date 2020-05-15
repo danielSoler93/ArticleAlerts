@@ -264,8 +264,7 @@ def arg_parse():
                         type=str)
 
     args = parser.parse_args()
-    return args.download, args.file, args.search, args.search_download,
-    args.limit, args.output, args.verbose, args.proxy
+    return args.download, args.file, args.search, args.search_download, args.limit, args.output, args.verbose, args.proxy
 
 def main(download, file=None, search=None, search_download=None, limit=10, output=".", verbose=False, proxy=False):
     sh = SciHub()
@@ -311,7 +310,5 @@ def main(download, file=None, search=None, search_download=None, limit=10, outpu
 
 
 if __name__ == '__main__':
-    download, file, search, search_download,\
-    limit, output, verbose, proxy = arg_parse()
-    main(download, file, search, search_download,
-        limit, output, verbose, proxy)
+    download, file, search, search_download, limit, output, verbose, proxy = arg_parse()
+    main(download, file, search, search_download, limit, output, verbose, proxy)

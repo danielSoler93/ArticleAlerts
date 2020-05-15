@@ -11,14 +11,18 @@ from stem.util.log import get_logger
 logger = get_logger()
 logger.propagate = False
 
-
+URL ="https://scholar.google.es/scholar?start={}&q={}&hl=es&as_sdt=0,5&as_ylo={}"
 
 
 
 class Scraper():
 
-    def __init__(self, url):
-        self.url = url
+    def __init__(self, topic, year, limit=0):
+        self.topic = topic
+        self.year = year
+        self.limit = limit
+        self.url = self.get_url()
+
 
     def scrape(self):
         html = self.get_html()
@@ -35,6 +39,13 @@ class Scraper():
         html = url.text
         return html
 
+    def get_url(self):
+        url_with_spaces = URL.format(self.limit, self.topic, self.year)
+        url_without_spaces =  url_with_spaces.replace(" ", "+")
+        print(f"Scraping URL {url_without_spaces} ...")
+        return url_without_spaces
+
+
     def get_articles(self, html):
         soup = BeautifulSoup(html, 'html.parser')
         articles = soup.find_all("div", class_="gs_ri")
@@ -47,7 +58,10 @@ class Scraper():
          date = article.find("div", class_="gs_a").text
          match = re.search('\d{4}', date)
          year = match.group(0)
-         article = ar.Article(title.text, authors, title["href"], year)
+         abstract = article.find("div", class_="gs_rs")
+         abstract = abstract.text if abstract else ""
+         article = ar.Article(title.text, authors, title["href"],
+                              year, abstract)
          return article
 
     def _get_tor_session(self):
