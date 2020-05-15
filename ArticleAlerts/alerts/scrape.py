@@ -4,8 +4,12 @@ from bs4 import BeautifulSoup
 import re
 from . import article as ar
 from . import checker as ck
-
+from stem import Signal
+from stem.control import Controller
 import requests
+from stem.util.log import get_logger
+logger = get_logger()
+logger.propagate = False
 
 
 
@@ -23,6 +27,9 @@ class Scraper():
         return articles
 
     def get_html(self):
+        with Controller.from_port(port=9051) as c:
+            c.authenticate()
+            c.signal(Signal.NEWNYM)
         session = self._get_tor_session()
         url = session.get(self.url)
         html = url.text

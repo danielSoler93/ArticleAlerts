@@ -1,5 +1,6 @@
 from datetime import datetime
 import os
+import time
 from . import scrape as sc
 from . import database as db
 
@@ -21,8 +22,12 @@ class AlertManager(sc.Scraper, db.DB):
         self.update(articles)
 
     def download(self, url):
-        sc.Scraper.__init__(self, url)
-        articles = self.scrape()
+        articles = []
+        while not articles:
+            sc.Scraper.__init__(self, url)
+            articles = self.scrape()
+            if not articles:
+                time.sleep(10)
         return articles
 
     def get_url(self):

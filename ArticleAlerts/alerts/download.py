@@ -1,5 +1,8 @@
 import subprocess
 import os
+from . import scihub
+import threading
+import multiprocessing
 
 DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 ARTICLES_FOLDER = os.path.join(DIR, "articles")
@@ -13,5 +16,7 @@ class ArticleDownloader:
     def download(self):
         if not os.path.exists(self.output):
             os.makedirs(self.output)
-        cmd = f"python /Users/nostrum/repos/scihub.py/scihub/scihub.py -d {self.article_url} --output {self.output}"
-        subprocess.Popen(cmd.split())
+        try:
+            multiprocessing.Process(target=scihub.main, args=(self.article_url,), kwargs={'output': self.output}).start()
+        except Exception:
+            pass
