@@ -1,8 +1,14 @@
 import requests
+from scholarly import scholarly
 from bs4 import BeautifulSoup
 import re
 from . import article as ar
 from . import checker as ck
+
+import requests
+
+
+
 
 
 class Scraper():
@@ -17,7 +23,8 @@ class Scraper():
         return articles
 
     def get_html(self):
-        url = requests.get(self.url)
+        session = self._get_tor_session()
+        url = session.get(self.url)
         html = url.text
         return html
 
@@ -36,3 +43,21 @@ class Scraper():
          article = ar.Article(title.text, authors, title["href"], year)
          return article
 
+    def _get_tor_session(self):
+        session = requests.session()
+        # Tor uses the 9050 port as the default socks port
+        session.proxies = {'http': 'socks5://127.0.0.1:9050',
+                           'https': 'socks5://127.0.0.1:9050'}
+        return session
+
+class ApiScraper:
+
+
+    def __init__(self, topic):
+        self.topic = topic
+        proxies = {'http': 'socks5://127.0.0.1:9050', 'https': 'socks5://127.0.0.1:9050'}
+        scholarly.use_proxy(**proxies)
+
+    def search(self):
+        search_query = scholarly.search_pubs_query(self.topic)
+        print(next(search_query))
